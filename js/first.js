@@ -29,8 +29,11 @@ renderer.setSize(vw, vh);
 renderer.setAnimationLoop(animate); 
 renderer.shadowMap.enabled = true; 
 renderer.shadowMap.type = true; 
+
+
 // lav Effektcomposer - så vi kan tilføje effekter
 const composer = new EffectComposer(renderer);
+
 // capture scene
 const renderScene = new RenderPass(scene, camera);
 composer.addPass(renderScene);
@@ -43,9 +46,23 @@ scene.add(ambiLight); // Tilføjer naturligt overall lys til omgivelserne
 
 
 
+
+
+// EFFEKTER 
+// BLLOOOM EFFEKKTTT ****
+const bloomPass = new UnrealBloomPass(new THREE.Vector2(vw, vh), 3, 3, 2);
+composer.addPass(bloomPass);
+
+console.log(bloomPass);
+
+
+
+
 // ANIMATIONS FUNKTION 
 function animate() {
     renderer.render(scene, camera); 
+    composer.render();
+    
 }
 
 
@@ -66,21 +83,48 @@ const floorMat = new THREE.MeshStandardMaterial({color:0xffffff, map: floorTextu
 const floor = new THREE.Mesh(floorGeom, floorMat); 
 floor.rotation.x = dtr(-90); // Hvilken vinkel vores floor skal ligge på
 floor.receiveShadow = true; 
-scene.add(floor); 
+// scene.add(floor); 
 
 
 
-// STJERNER
-function createStars(){
+// STJERNER SOM ER LANGT VÆK
+function createStarsFar(){
     const points = [];
-    const radius = 700; 
-    for(let i=0;i<1000;i++){
-        let angel = dtr(Math.random()*360);
-        let x = radius * Math.cos(angel) ;
-        let z = radius * Math.sin(angel);
-        let y = Math.random() * 365; 
-        points.push(new THREE.Vector3(x,y,z)); 
-    };
+    const minRadius = 600;  // Minimum radius
+    const maxRadius = 1500;  // Maximum radius
+    for (var i = 0;i<8000;i++){
+        var radius = Math.random() * (maxRadius - minRadius) + minRadius;
+        var angle = dtr(Math.random()*360);
+        var x = radius * Math.cos(angle);
+        var z = radius * Math.sin(angle);
+        var y = (Math.random() * 1080) - 550;
+        points.push (new THREE.Vector3(x,y,z));
+
+    }
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.PointsMaterial({color:0xffffff, fog:false}); 
+    let starsFar = new THREE.Points(geometry, material);
+    scene.add(starsFar);
+    return starsFar;
+};
+
+let starsFar = new createStarsFar();
+
+
+// FUNKTION FOR STJERNER TÆT PÅ
+function createStarsClose(){
+    const points = [];
+    const minRadius = 100;  // Minimum radius
+    const maxRadius = 500;  // Maximum radius
+    for (var i = 0;i<8000;i++){
+        var radius = Math.random() * (maxRadius - minRadius) + minRadius;
+        var angle = dtr(Math.random()*360);
+        var x = radius * Math.cos(angle);
+        var z = radius * Math.sin(angle);
+        var y = (Math.random() * 1080) - 550;
+        points.push (new THREE.Vector3(x,y,z));
+
+    }
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const material = new THREE.PointsMaterial({color:0xffffff, fog:false}); 
     let stars = new THREE.Points(geometry, material);
@@ -88,8 +132,7 @@ function createStars(){
     return stars;
 };
 
-let stars = new createStars();
-
+let stars = new createStarsClose();
 
 
 
@@ -166,17 +209,6 @@ buildnSphere(37, 60, -180); // Bygger sphere med vores opdateret position
 
 
 
-// EFFEKTER 
-
-// BLLOOOM EFFEKKTTT ****
-const bloomPass = new UnrealBloomPass(new THREE.Vector2(vw, vh), 1.5, 2, 0.8);
-composer.addPass(bloomPass);
-
-console.log(bloomPass);
-
-
-
-
 
 
 
@@ -192,6 +224,7 @@ const controls = new OrbitControls(camera, canvasEl); // Orbit control
 function dtr(d){
     return d * (Math.PI/180);
 }
+
 
 
 // FUNKTION SOM RESIZE´ER
