@@ -55,7 +55,8 @@ composer.addPass(bloomPass);
 
 console.log(bloomPass);
 
-
+// DEFINERE MIN SCENE - ISÆR MIN CONSTRUCTOR
+const sceneT = new SceneT(); 
 
 
 // ANIMATIONS FUNKTION 

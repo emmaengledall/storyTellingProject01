@@ -2,13 +2,16 @@ import * as THREE from 'three';
 
 			import Stats from 'three/addons/libs/stats.module.js';
 			import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
-
 			import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 			import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 			import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 			import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 			import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 			import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+            //imported sceness 
+            import SceneT from 'src/scenes/SceneT.js'; 
+
 
 			let camera, stats;
 			let composer, renderer, mixer, clock;
@@ -51,7 +54,7 @@ async function init() {
 //
 
 
-
+GSAP.ticker.add(animate);
 // ANIMATE FUNKTION 
 function animate() {
 
