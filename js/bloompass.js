@@ -9,8 +9,7 @@ import * as THREE from 'three';
 			import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 			import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
-            //imported sceness 
-            import SceneT from 'src/scenes/SceneT.js'; 
+         
 
 
 			let camera, stats;
@@ -25,6 +24,16 @@ import * as THREE from 'three';
 				exposure: 1
 			};
 
+
+            // window.addEventListener('resize', () => {
+            //     camera.aspect = window.innerWidth / window.innerHeight;
+            //     camera.updateProjectionMatrix() 
+            //     renderer.setSize( window.innerWidth, window.innerHeight );
+            //     renderer.setPixelRatio(Math.min( window.devicePixelRatio, 2 ));
+		
+
+            // })
+
  // MIN INIT FUNCTION
  // 
 init();
@@ -33,7 +42,7 @@ async function init() {
 				clock = new THREE.Clock();
 				const scene = new THREE.Scene();
 
-				const camera = new THREE.PerspectiveCamera(50, vw/vh, .1, 2000); // Kamera 
+				const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, .1, 2000); // Kamera 
 				camera.position.set(  // Kamera standard position
                     -0, // z
                     -0, // y
@@ -54,7 +63,7 @@ async function init() {
 //
 
 
-GSAP.ticker.add(animate);
+// GSAP.ticker.add(animate);
 // ANIMATE FUNKTION 
 function animate() {
 
@@ -64,21 +73,22 @@ function animate() {
 
 				composer.render();
 
-                sphere.rotation.y += dtr(0.5);
-                sphere01.rotation.y -= dtr(0.5);
-                sphere02.rotation.y += dtr(0.5);
+                sphere.rotation.y += dtr(0.2);
+                sphere01.rotation.y -= dtr(0.2);
+                sphere02.rotation.y += dtr(0.2);
                 
+                starsFar.rotation.y += dtr(.008)
+                starsClose.rotation.z += dtr(.008)
 			}
 
-
-
+           
 
 
 
 // RENDERE WINDOW
-				renderer = new THREE.WebGLRenderer( { antialias: true } );
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				const renderer = new THREE.WebGLRenderer( { antialias: true } );
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 				renderer.setAnimationLoop( animate );
 				container.appendChild( renderer.domElement );
                 renderer.render(scene, camera);
@@ -98,7 +108,7 @@ function animate() {
 				const outputPass = new OutputPass();
 // 
 
-
+// const sceneT = new SceneT(); 
 
 
 // MIN EFFEKTCOMPOSER
@@ -183,7 +193,7 @@ function createStarsFar(){
     return starsFar;
 };
 let starsFar = new createStarsFar();
-//
+// 
 
 
 // STJERNER SOM ER TÆT PÅ
@@ -206,7 +216,7 @@ function createStarsClose(){
         scene.add(stars);
     return stars;
 };
-let stars = new createStarsClose();
+let starsClose = new createStarsClose();
 //         
 
 
