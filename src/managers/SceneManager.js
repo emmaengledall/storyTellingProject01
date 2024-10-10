@@ -29,11 +29,13 @@ export default class SceneManager {
     * @params {number} sceneId 
     */
     mountScene(sceneid) {
+        console.log(this.scenes[sceneid])
+
         const scene = this.scenes[sceneid] 
 
-        scene.group.positon.copy(scene.group.userData.mountFromPosition)
+        // scene.group.positon.copy(scene.group.userData.mountFromPosition)
 
-        this.stage.add(scene.group)
+        // this.stage.add(scene.group) 
 
         GSAP.to(scene.group.positon, {
             x:0,

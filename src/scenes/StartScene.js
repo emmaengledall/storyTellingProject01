@@ -40,7 +40,6 @@ CreateGeometry() {
  CreateAmbientLight() {
     const ambiLight = new THREE.AmbientLight(0xFFFFFF, 1);
     this.group.add(ambiLight);
-
 }; 
 
 update() {

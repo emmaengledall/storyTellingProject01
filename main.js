@@ -24,11 +24,11 @@ document.body.appendChild(renderer.domElement)
 
 
 // TILFØJER MINE SCENER
-// const startscene = new StartScene(); // Jeg har nu adgang til class her 
-// scene.add(startscene.group);
+const startscene = new StartScene(); // Jeg har nu adgang til class her 
+scene.add(startscene.group);
 
 const planet1 = new Planet1();
-scene.add(planet1.group);
+// scene.add(planet1.group);
 
 
 // CONTROLS
@@ -39,6 +39,12 @@ window.addEventListener('resize', () => { // eventlistner der lytter efter om ca
   renderer.setSize(window.innerWidth, window.innerHeight) // fortæller renderer at den skal ændre ændre sit render område med window størrelse. 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)) // kontrollere render kvalitet efter skærmens pixel dencitet. 
 }) 
+
+document.addEventListener('click', (event) => {
+    if (event.clicked === StartScene.geometry1) {
+        sceneManager.nextScene()
+    }
+})
 
 // OPRET OG MONTER SCENEMANAGER
 const sceneManager = new SceneManager(scene)
@@ -89,7 +95,6 @@ function createStarsFar(){
 let starsFar = new createStarsFar();
 
 
-
 GSAP.ticker.add(animate) 
 function animate () {
   //requestAnimationFrame(animate); // Kald animation for frame
@@ -97,8 +102,10 @@ function animate () {
   renderer.render(scene, camera); // Render scenen
   starsFar.rotation.y += .00003; 
   stars.rotation.x += .00002;
-  // startscene.update();
+  startscene.update();
 };
+
+
 
 
 // // FUNDAMENTET - ALT BASALT SOM SKABER MINE OMGIVELSER
